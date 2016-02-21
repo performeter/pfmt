@@ -1,33 +1,40 @@
 import {v4} from "node-uuid";
 import {range} from "ramda";
 
+import * as constants from "./constants";
 import getAsteroid from "./get-asteroid";
 
 async function runMeasurementScenario (scenario, config, runDetails) {
     const events = [];
-    var stage;
+    var scenarioRunning;
     const dispatch = event => {
-        events.push({
-            ...event,
-            id: v4(),
-            timestamp: Date.now(),
-            meta: {
-                ...event.meta,
-                scenarioName: scenario.name,
-                stage: stage,
-                runDetails: runDetails
-            }
-        });
+        if (scenarioRunning) {
+            events.push({
+                ...event,
+                id: v4(),
+                timestamp: Date.now(),
+                meta: {
+                    ...event.meta,
+                    scenarioName: scenario.name,
+                    runDetails: runDetails
+                }
+            });
+        }
     };
     const asteroid = getAsteroid(config.ENDPOINT, dispatch);
+    // Run the before function, if present
     if (scenario.before) {
-        stage = "before";
+        scenarioRunning = false;
         await scenario.before(asteroid, config);
     }
-    stage = "scenario";
+    // Run the scenario function
+    scenarioRunning = true;
+    dispatch({type: constants.SCENARIO_START});
     await scenario.scenario(asteroid, config);
+    dispatch({type: constants.SCENARIO_END});
+    // Run the after function, if present
     if (scenario.after) {
-        stage = "after";
+        scenarioRunning = false;
         await scenario.after(asteroid, config);
     }
     return events;
