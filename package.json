@@ -45,9 +45,10 @@
   "dependencies": {
     "asteroid": "^2.0.1",
     "babel-polyfill": "^6.3.14",
+    "bluebird": "^3.3.1",
     "faye-websocket": "^0.10.0",
     "node-uuid": "^1.4.7",
-    "s3": "^4.4.0",
+    "ramda": "^0.19.1",
     "yargs": "^4.1.0"
   }
 }

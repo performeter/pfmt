@@ -18,39 +18,44 @@ export const builder = {
     },
     iterations: {
         alias: "i",
-        default: 100,
+        default: 1,
         describe: "Number of iterations",
         type: "number"
     },
     outputPath: {
         alias: "o",
-        default: "scenarios.log",
+        default: "scenarios-log.json",
         describe: "Path where to write the result log"
     }
 };
 
 export async function handler (argv) {
-    // Retrieve config
-    const config = require(
-        resolve(process.cwd(), argv.config)
-    );
-    // Retrieve scenarios
-    const scenariosDir = resolve(process.cwd(), argv.scenariosDir);
-    const scenarios = readdirSync(scenariosDir)
-        // Only load .js files
-        .filter(fileName =>
-            /\.js$/.test(fileName)
-        )
-        .map(fileName =>
-            require(join(scenariosDir, fileName))
+    try {
+        // Retrieve config
+        const config = require(
+            resolve(process.cwd(), argv.config)
         );
-    // Exec command
-    const events = await runMeasurementScenarios({
-        config: config,
-        scenarios: scenarios,
-        iterations: argv.iterations
-    });
-    // Write result
-    const outputPath = resolve(process.cwd(), argv.outputPath);
-    writeFileSync(outputPath, JSON.stringify(events));
+        // Retrieve scenarios
+        const scenariosDir = resolve(process.cwd(), argv.scenariosDir);
+        const scenarios = readdirSync(scenariosDir)
+            // Only load .js files
+            .filter(fileName =>
+                /\.js$/.test(fileName)
+            )
+            .map(fileName =>
+                require(join(scenariosDir, fileName))
+            );
+        // Exec command
+        const events = await runMeasurementScenarios({
+            config: config,
+            scenarios: scenarios,
+            iterations: argv.iterations
+        });
+        // Write result
+        const outputPath = resolve(process.cwd(), argv.outputPath);
+        writeFileSync(outputPath, JSON.stringify(events, null, 4));
+    } catch (e) {
+        console.log("Error executing measure command");
+        console.log(e.stack);
+    }
 }

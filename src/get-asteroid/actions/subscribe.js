@@ -5,7 +5,7 @@ export const SUBSCRIPTION_SUCCESS = "SUBSCRIPTION_SUCCESS";
 export const SUBSCRIPTION_ERROR = "SUBSCRIPTION_ERROR";
 
 export default function subscribe (asteroid, dispatch) {
-    return async (name, ...params) => {
+    return async function (name, ...params) {
         const subscriptionId = v4();
         try {
             dispatch({
@@ -21,8 +21,9 @@ export default function subscribe (asteroid, dispatch) {
         } catch (error) {
             dispatch({
                 type: SUBSCRIPTION_ERROR,
-                payload: error,
-                error: true,
+                payload: {
+                    message: error.message
+                },
                 meta: {subscriptionId}
             });
         }

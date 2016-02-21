@@ -5,7 +5,7 @@ export const METHOD_CALL_SUCCESS = "METHOD_CALL_SUCCESS";
 export const METHOD_CALL_ERROR = "METHOD_CALL_ERROR";
 
 export default function call (asteroid, dispatch) {
-    return async (name, ...params) => {
+    return async function (name, ...params) {
         const methodCallId = v4();
         try {
             dispatch({
@@ -22,8 +22,9 @@ export default function call (asteroid, dispatch) {
         } catch (error) {
             dispatch({
                 type: METHOD_CALL_ERROR,
-                payload: error,
-                error: true,
+                payload: {
+                    message: error.message
+                },
                 meta: {methodCallId}
             });
         }

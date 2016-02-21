@@ -3,7 +3,7 @@ export const DISCONNECT_SUCCESS = "DISCONNECT_SUCCESS";
 export const DISCONNECT_ERROR = "DISCONNECT_ERROR";
 
 export default function disconnect (asteroid, dispatch) {
-    return async () => {
+    return async function () {
         try {
             dispatch({type: DISCONNECT_START});
             await asteroid.disconnect();
@@ -11,8 +11,9 @@ export default function disconnect (asteroid, dispatch) {
         } catch (error) {
             dispatch({
                 type: DISCONNECT_ERROR,
-                payload: error,
-                error: true
+                payload: {
+                    message: error.message
+                }
             });
         }
     };
