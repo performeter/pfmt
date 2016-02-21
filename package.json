@@ -1,6 +1,6 @@
 {
   "name": "pfmt",
-  "version": "1.0.2",
+  "version": "1.0.3",
   "description": "Stress test a meteor application",
   "main": "lib/bin/pfmt.js",
   "bin": {
