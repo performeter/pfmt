@@ -3,11 +3,13 @@
 import "babel-polyfill";
 import yargs from "yargs";
 
+import * as analyse from "../commands/analyse";
 import * as measure from "../commands/measure";
 
 yargs
     .help("help")
     .wrap(100)
     .usage("Usage: $0 <command> [options]")
+    .command("analyse", "Analyse measurements", analyse)
     .command("measure", "Run measurement scenarios", measure)
     .parse(process.argv);

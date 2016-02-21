@@ -49,6 +49,7 @@
     "faye-websocket": "^0.10.0",
     "node-uuid": "^1.4.7",
     "ramda": "^0.19.1",
+    "simple-statistics": "^1.0.1",
     "yargs": "^4.1.0"
   }
 }
