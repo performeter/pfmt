@@ -1,0 +1,13 @@
+#!/usr/bin/env node
+
+import "babel-polyfill";
+import yargs from "yargs";
+
+import * as measure from "../commands/measure";
+
+yargs
+    .help("help")
+    .wrap(100)
+    .usage("Usage: $0 <command> [options]")
+    .command("measure", "Run measurement scenarios", measure)
+    .parse(process.argv);
