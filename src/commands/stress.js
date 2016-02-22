@@ -25,7 +25,7 @@ export const builder = {
     },
     outputPath: {
         alias: "o",
-        default: "stress-scenarios-log.json",
+        default: "stress-scenarios-log.jsonl",
         describe: "Path where to write the result log"
     }
 };
@@ -48,7 +48,8 @@ export async function handler (argv) {
             );
         // Create logger
         const stream = createWriteStream(
-            resolve(process.cwd(), argv.outputPath)
+            resolve(process.cwd(), argv.outputPath),
+            {flags: "a"}
         );
         const log = getLogger(stream);
         // Exec command
