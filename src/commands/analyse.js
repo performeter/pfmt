@@ -5,7 +5,7 @@ import getScenariosTimeStats from "../analysis/get-scenarios-time-stats";
 export const builder = {
     inputPath: {
         alias: "i",
-        default: "scenarios-log.json",
+        default: "measurement-scenarios-log.json",
         describe: "Path of the result log"
     }
 };

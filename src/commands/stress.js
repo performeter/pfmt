@@ -1,7 +1,8 @@
-import {readdirSync} from "fs";
+import {createWriteStream, readdirSync} from "fs";
 import {join, resolve} from "path";
 
 import runStressScenarios from "../run-stress-scenarios";
+import getLogger from "../services/logger";
 
 export const builder = {
     config: {
@@ -21,6 +22,11 @@ export const builder = {
         default: 1,
         describe: "Number of concurrent scenarios to run",
         type: "number"
+    },
+    outputPath: {
+        alias: "o",
+        default: "stress-scenarios-log.json",
+        describe: "Path where to write the result log"
     }
 };
 
@@ -40,11 +46,17 @@ export async function handler (argv) {
             .map(fileName =>
                 require(join(scenariosDir, fileName))
             );
+        // Create logger
+        const stream = createWriteStream(
+            resolve(process.cwd(), argv.outputPath)
+        );
+        const log = getLogger(stream);
         // Exec command
         await runStressScenarios({
             config: config,
             scenarios: scenarios,
-            stressLevel: argv.stressLevel
+            stressLevel: argv.stressLevel,
+            log: log
         });
     } catch (e) {
         console.log("Error executing stress command");

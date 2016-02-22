@@ -24,7 +24,7 @@ export const builder = {
     },
     outputPath: {
         alias: "o",
-        default: "scenarios-log.json",
+        default: "measurement-scenarios-log.json",
         describe: "Path where to write the result log"
     }
 };
