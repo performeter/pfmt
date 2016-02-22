@@ -12,4 +12,5 @@ yargs
     .usage("Usage: $0 <command> [options]")
     .command("analyse", "Analyse measurements", analyse)
     .command("measure", "Run measurement scenarios", measure)
+    .command("stress", "Run stress scenarios", measure)
     .parse(process.argv);

@@ -19,7 +19,7 @@ export async function handler (argv) {
         const stats = getScenariosTimeStats(events);
         console.log(JSON.stringify(stats, null, 4));
     } catch (e) {
-        console.log("Error executing measure command");
+        console.log("Error executing analyse command");
         console.log(e.stack);
     }
 }
