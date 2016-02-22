@@ -39,7 +39,7 @@ function randomPick (array) {
     return array[index];
 }
 
-export async function runStressScenarios (options) {
+export default async function runStressScenarios (options) {
     const {
         config,
         scenarios,
