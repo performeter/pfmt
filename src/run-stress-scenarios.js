@@ -1,5 +1,5 @@
 import {map} from "bluebird";
-import {v4} from "node-uuid";
+import {v4} from "uuid";
 import {range} from "ramda";
 
 import * as constants from "./constants";
